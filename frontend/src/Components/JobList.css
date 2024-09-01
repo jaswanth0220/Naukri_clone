@@ -1,0 +1,60 @@
+/* JobList.css */
+.job-list-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f0f4f8;
+  }
+  
+  .job-list-container h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: #333;
+  }
+  
+  .job-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .job-card:hover {
+    transform: translateY(-10px);
+  }
+  
+  .job-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #2c3e50;
+  }
+  
+  .job-card p {
+    font-size: 1rem;
+    color: #7f8c8d;
+    margin-bottom: 15px;
+  }
+  
+  .job-card button {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .job-card button:hover {
+    background-color: #2980b9;
+  }
+  
+  .job-list-container ul {
+    list-style: none;
+    padding: 0;
+  }
+  

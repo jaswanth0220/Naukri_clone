@@ -1,0 +1,72 @@
+/* Login.css */
+body {
+  margin: 0;
+  font-family: "Arial", sans-serif;
+  background-color: #f4f4f4;
+  overflow-x: hidden; /* Hide horizontal overflow */
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(
+    100vh - 60px
+  ); /* Adjust height to account for the fixed header */
+  padding: 20px;
+  background: #f0f2f5;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.login-box {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 350px; /* Limit the width of the login box */
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+header {
+  margin: 0; /* Remove any margin that could push content down */
+}
+
+input,
+button {
+  box-sizing: border-box; /* Ensure padding is included in element's width and height */
+}
+
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
