@@ -87,6 +87,7 @@ namespace TopJobs_API.Repositories
                 if (application != null)
                 {
                     application.Status = status;
+                    _context.Applications.Update(application);
                     await _context.SaveChangesAsync();
                 }
             }

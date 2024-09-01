@@ -12,7 +12,7 @@ namespace TopJobs_API.Entities
         public int JobSeekerId { get; set; }
 
         [ForeignKey("User")]
-
+        
         public int UserId { get; set; } 
         public string? Resume { get; set; }
         public string? Skills { get; set; }
@@ -22,6 +22,6 @@ namespace TopJobs_API.Entities
 
 
         [JsonIgnore]
-        public User User { get; set; }
+        public User? User { get; set; }
     }
 }

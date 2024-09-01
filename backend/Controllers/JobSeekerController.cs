@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TopJobs_API.DTOS;
 using TopJobs_API.Entities;
 using TopJobs_API.Repositories;
 
@@ -17,56 +19,132 @@ namespace TopJobs_API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<JobSeeker>>> GetJobSeekers()
         {
-            var jobSeekers = await _jobSeekerRepository.GetAllAsync();
-            return Ok(jobSeekers);
+            try
+            {
+                var jobSeekers = await _jobSeekerRepository.GetAllAsync();
+                return Ok(jobSeekers);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error. Please try again later.");
+            }
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "JobSeeker,Admin")]
         public async Task<ActionResult<JobSeeker>> GetJobSeeker(int id)
         {
-            var jobSeeker = await _jobSeekerRepository.GetByIdAsync(id);
-            if (jobSeeker == null)
+            try
             {
-                return NotFound();
+                var jobSeeker = await _jobSeekerRepository.GetByIdAsync(id);
+                if (jobSeeker == null)
+                {
+                    return NotFound("Job Seeker not found.");
+                }
+                return Ok(jobSeeker);
             }
-            return Ok(jobSeeker);
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error. Please try again later.");
+            }
         }
 
         [HttpPost]
-        public async Task<ActionResult<JobSeeker>> CreateJobSeeker(JobSeeker jobSeeker)
+        
+        public async Task<ActionResult<JobSeeker>> CreateJobSeeker(JobSeekerDto jobSeekerdto)
         {
-            await _jobSeekerRepository.AddAsync(jobSeeker);
-            //return CreatedAtAction(nameof(GetJobSeeker), new { id = jobSeeker.JobSeekerId }, jobSeeker);
-            return Ok(jobSeeker);
+            try
+            {
+                // Check if the UserId is already used by an Employer
+                var existingEmployer = await _jobSeekerRepository.GetEmployerByUserId(jobSeekerdto.UserId);
+                if (existingEmployer != null)
+                {
+                    return BadRequest("UserId is already in use by an Employer.");
+                }
+
+                // Check if the UserId is already used by another JobSeeker
+                var existingJobSeeker = await _jobSeekerRepository.GetJobSeekerByUserId(jobSeekerdto.UserId);
+                if (existingJobSeeker != null)
+                {
+                    return BadRequest("UserId is already in use by another JobSeeker.");
+                }
+
+                var jobSeeker = new JobSeeker
+                {
+                    UserId = jobSeekerdto.UserId,
+                    Resume = jobSeekerdto.Resume,
+                    Skills = jobSeekerdto.Skills,
+                    Experience = jobSeekerdto.Experience,
+                    Education = jobSeekerdto.Education
+                };
+
+                await _jobSeekerRepository.AddAsync(jobSeeker);
+                return Ok(jobSeeker);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error. Please try again later.");
+            }
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateJobSeeker(int id, JobSeeker jobSeeker)
-        {
-            if (id != jobSeeker.JobSeekerId)
-            {
-                return BadRequest();
-            }
 
-            await _jobSeekerRepository.UpdateAsync(jobSeeker);
-            return NoContent();
+        [HttpPut("{id}")]
+        [Authorize(Roles = "JobSeeker")]
+        public async Task<IActionResult> UpdateJobSeeker(int id, JobSeekerDto jobSeekerdto)
+        {
+            try
+            {
+                var jobSeeker = await _jobSeekerRepository.GetByIdAsync(id);
+                if (jobSeeker == null)
+                {
+                    return NotFound("Job Seeker not found.");
+                }
+
+                jobSeeker.Resume = jobSeekerdto.Resume;
+                jobSeeker.Skills = jobSeekerdto.Skills;
+                jobSeeker.Experience = jobSeekerdto.Experience;
+                jobSeeker.Education = jobSeekerdto.Education;
+
+                await _jobSeekerRepository.UpdateAsync(jobSeeker);
+                return Ok("Successfully updated");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error. Please try again later.");
+            }
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteJobSeeker(int id)
         {
-            await _jobSeekerRepository.DeleteAsync(id);
-            return NoContent();
+            try
+            {
+                await _jobSeekerRepository.DeleteAsync(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error. Please try again later.");
+            }
         }
 
         [HttpGet("{jobSeekerId}/applications")]
+        [Authorize(Roles = "JobSeeker,Admin")]
         public async Task<IActionResult> GetJobsAppliedTo(int jobSeekerId)
         {
-            var applications = await _jobSeekerRepository.GetJobsApplied(jobSeekerId);
-            return Ok(applications);
+            try
+            {
+                var applications = await _jobSeekerRepository.GetJobsApplied(jobSeekerId);
+                return Ok(applications);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error. Please try again later.");
+            }
         }
     }
-
 }

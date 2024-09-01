@@ -10,5 +10,8 @@ namespace TopJobs_API.Repositories
         Task UpdateAsync(Employer employer);
         Task DeleteAsync(int id);
         Task<List<Application>> GetJobApplications(int employerId);
+        Task<Employer> GetEmployerByUserId(int userId);
+        Task<JobSeeker> GetJobSeekerByUserId(int userId); 
+
     }
 }

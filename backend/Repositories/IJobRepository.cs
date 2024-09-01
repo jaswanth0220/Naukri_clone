@@ -1,4 +1,5 @@
-﻿using TopJobs_API.Entities;
+﻿using TopJobs_API.DTOS;
+using TopJobs_API.Entities;
 
 namespace TopJobs_API.Repositories
 {
@@ -9,5 +10,7 @@ namespace TopJobs_API.Repositories
         Task AddAsync(Job job);
         Task UpdateAsync(Job job);
         Task DeleteAsync(int id);
+        Task<IEnumerable<Job>> GetJobsByEmployerId(int employerId);
+        Task<List<ApplicantDto>> GetApplicantsForJob(int jobId);
     }
 }
