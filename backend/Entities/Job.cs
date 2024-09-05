@@ -17,10 +17,11 @@ namespace TopJobs_API.Entities
 
         [Column(TypeName = "decimal(18, 2)")]
         public decimal? Salary { get; set; }
-        
+
         public DateTime? PostDate { get; set; }
         public DateTime? ExpiryDate { get; set; }
 
         public Employer Employer { get; set; }
+
     }
 }

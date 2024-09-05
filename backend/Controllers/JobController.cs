@@ -19,7 +19,7 @@ namespace TopJobs_API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "JobSeeker,Employer,Admin")]
+        
 
         public async Task<ActionResult<List<Job>>> GetJobs()
         {
@@ -35,7 +35,7 @@ namespace TopJobs_API.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "JobSeeker,Employer,Admin")]
+        //[Authorize(Roles = "JobSeeker,Employer,Admin")]
         public async Task<ActionResult<Job>> GetJob(int id)
         {
             try
@@ -136,6 +136,37 @@ namespace TopJobs_API.Controllers
                 }
 
                 return Ok(applicants);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error. Please try again later.");
+            }
+        }
+        [HttpGet("search")]
+        //[Authorize(Roles = "JobSeeker,Employer,Admin")]
+        public async Task<ActionResult<List<Job>>> SearchJobs([FromQuery] string query)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(query))
+                {
+                    return BadRequest("Query cannot be empty.");
+                }
+
+                // Fetch all jobs (consider paginating if the dataset is large)
+                var jobs = await _jobRepository.GetAllAsync();
+
+                // Filter jobs based on the query
+                var filteredJobs = jobs
+                    .Where(j => j.Title != null && j.Title.Contains(query, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+
+                if (filteredJobs.Count == 0)
+                {
+                    return NotFound("No jobs found matching the query.");
+                }
+
+                return Ok(filteredJobs);
             }
             catch (Exception ex)
             {

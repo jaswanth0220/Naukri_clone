@@ -34,17 +34,14 @@ const EmployerDashboard = () => {
         `http://localhost:5099/api/Job/GetApplicantsForJob/${jobId}`
       );
       // Include applicationId in the state
-      console.log(response.data);
       const applicantsWithId = response.data.map((applicant) => ({
         ...applicant,
         applicationId: applicant.applicationId, // Ensure applicationId is included
       }));
-      console.log("this is applicaiton id ", applicantsWithId);
       setApplicants((prev) => ({
         ...prev,
         [jobId]: applicantsWithId,
       }));
-      console.log("this is applicaitons ", applicants);
     } catch (error) {
       console.error("Error fetching applicants:", error);
     }
@@ -52,23 +49,20 @@ const EmployerDashboard = () => {
 
   const handleStatusChange = async (jobId, applicationId, newStatus) => {
     try {
-      // Validate newStatus to ensure it is either 'Accepted' or 'Rejected'
       if (!["Accepted", "Rejected"].includes(newStatus)) {
         throw new Error("Invalid status");
       }
 
-      // Send the request with the status in an object
       await axios.put(
         `http://localhost:5099/api/Application/${applicationId}/status`,
-        newStatus, // Wrap newStatus in an object
+        newStatus,
         {
           headers: {
-            "Content-Type": "application/json", // Ensure content type is JSON
+            "Content-Type": "application/json",
           },
         }
       );
 
-      // Update local state
       setApplicants((prev) => ({
         ...prev,
         [jobId]: prev[jobId].map((applicant) =>
@@ -93,7 +87,6 @@ const EmployerDashboard = () => {
               View Applicants
             </button>
 
-            {/* Show applicants for this job if they've been fetched */}
             {applicants[job.jobId] && (
               <ul className="applicants-list">
                 {applicants[job.jobId].map((applicant) => (
@@ -122,7 +115,7 @@ const EmployerDashboard = () => {
                             "Rejected"
                           )
                         }
-                        className="status-button"
+                        className="status-button reject"
                       >
                         Reject
                       </button>

@@ -1,50 +1,104 @@
+/* EmployerDashboard.css */
 .dashboard-container {
-  padding: 20px;
-  font-family: Arial, sans-serif;
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: "Roboto", sans-serif;
+  background-color: #f9f9f9;
+}
+
+h2 {
+  text-align: center;
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 20px;
 }
 
 .job-list {
   list-style: none;
   padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
 }
 
 .job-item {
-  border: 1px solid #ddd;
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 5px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: transform 0.2s;
+}
+
+.job-item:hover {
+  transform: translateY(-5px);
 }
 
 .job-item h3 {
   margin: 0 0 10px;
+  font-size: 22px;
+  color: #0056b3;
 }
 
-.status-buttons {
-  margin-top: 10px;
-}
-
-.status-button {
+.job-item button {
   background-color: #007bff;
   color: #fff;
+  padding: 8px 16px;
   border: none;
-  padding: 5px 10px;
-  margin-right: 5px;
-  border-radius: 3px;
+  border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.status-button:hover {
+.job-item button:hover {
   background-color: #0056b3;
 }
 
 .applicants-list {
   list-style: none;
   padding: 0;
+  margin-top: 15px;
 }
 
 .applicant-item {
-  border: 1px solid #ddd;
-  margin-bottom: 5px;
-  padding: 5px;
+  background-color: #f1f1f1;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.applicant-item strong {
+  font-size: 16px;
+}
+
+.status-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.status-button {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 5px 15px;
   border-radius: 3px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.status-button.reject {
+  background-color: #dc3545;
+}
+
+.status-button:hover {
+  opacity: 0.9;
+}
+
+.no-applicants {
+  color: #777;
+  font-style: italic;
 }

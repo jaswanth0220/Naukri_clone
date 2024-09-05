@@ -14,12 +14,12 @@ namespace TopJobs_API.Entities
         [ForeignKey("User")]
         
         public int UserId { get; set; } 
+       
+
         public string? Resume { get; set; }
         public string? Skills { get; set; }
         public string? Experience { get; set; }
         public string? Education { get; set; }
-
-
 
         [JsonIgnore]
         public User? User { get; set; }

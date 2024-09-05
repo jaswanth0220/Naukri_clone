@@ -21,8 +21,8 @@ export const UserProvider = ({ children }) => {
       email: userData.email,
       role: userData.role,
       token: userData.token,
-      employerId: userData.employerId || null, // Set employerId if available
-      jobSeekerId: userData.jobSeekerId || null, // Set jobSeekerId if available
+      employerId: userData.employerId || null,
+      jobSeekerId: userData.jobSeekerId || null,
     });
 
     // Save all user details to localStorage

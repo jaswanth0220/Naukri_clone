@@ -3,28 +3,20 @@
   "WorkspaceRootPath": "E:\\.net training\\TopJobs_API\\backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{97C0B20D-4E70-4596-88A9-D34719C4F78C}|TopJobs_API.csproj|e:\\.net training\\topjobs_api\\backend\\repositories\\jobseekerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{97C0B20D-4E70-4596-88A9-D34719C4F78C}|TopJobs_API.csproj|solutionrelative:repositories\\jobseekerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{97C0B20D-4E70-4596-88A9-D34719C4F78C}|TopJobs_API.csproj|e:\\.net training\\topjobs_api\\backend\\entities\\jobseeker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{97C0B20D-4E70-4596-88A9-D34719C4F78C}|TopJobs_API.csproj|solutionrelative:entities\\jobseeker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{97C0B20D-4E70-4596-88A9-D34719C4F78C}|TopJobs_API.csproj|e:\\.net training\\topjobs_api\\backend\\dtos\\applicationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{97C0B20D-4E70-4596-88A9-D34719C4F78C}|TopJobs_API.csproj|solutionrelative:dtos\\applicationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{97C0B20D-4E70-4596-88A9-D34719C4F78C}|TopJobs_API.csproj|e:\\.net training\\topjobs_api\\backend\\entities\\job.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{97C0B20D-4E70-4596-88A9-D34719C4F78C}|TopJobs_API.csproj|solutionrelative:entities\\job.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{97C0B20D-4E70-4596-88A9-D34719C4F78C}|TopJobs_API.csproj|e:\\.net training\\topjobs_api\\backend\\repositories\\ijobseekerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{97C0B20D-4E70-4596-88A9-D34719C4F78C}|TopJobs_API.csproj|solutionrelative:repositories\\ijobseekerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{97C0B20D-4E70-4596-88A9-D34719C4F78C}|TopJobs_API.csproj|e:\\.net training\\topjobs_api\\backend\\entities\\employer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{97C0B20D-4E70-4596-88A9-D34719C4F78C}|TopJobs_API.csproj|solutionrelative:entities\\employer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{97C0B20D-4E70-4596-88A9-D34719C4F78C}|TopJobs_API.csproj|e:\\.net training\\topjobs_api\\backend\\controllers\\jobseekercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{97C0B20D-4E70-4596-88A9-D34719C4F78C}|TopJobs_API.csproj|solutionrelative:controllers\\jobseekercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{97C0B20D-4E70-4596-88A9-D34719C4F78C}|TopJobs_API.csproj|e:\\.net training\\topjobs_api\\backend\\repositories\\applicationrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{97C0B20D-4E70-4596-88A9-D34719C4F78C}|TopJobs_API.csproj|solutionrelative:repositories\\applicationrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{97C0B20D-4E70-4596-88A9-D34719C4F78C}|TopJobs_API.csproj|e:\\.net training\\topjobs_api\\backend\\controllers\\applicationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{97C0B20D-4E70-4596-88A9-D34719C4F78C}|TopJobs_API.csproj|solutionrelative:controllers\\applicationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{97C0B20D-4E70-4596-88A9-D34719C4F78C}|TopJobs_API.csproj|e:\\.net training\\topjobs_api\\backend\\dtos\\employerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{97C0B20D-4E70-4596-88A9-D34719C4F78C}|TopJobs_API.csproj|solutionrelative:dtos\\employerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,80 +26,59 @@
       "DocumentGroups": [
         {
           "DockedHeight": 8,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "IJobSeekerRepository.cs",
-              "DocumentMoniker": "E:\\.net training\\TopJobs_API\\backend\\Repositories\\IJobSeekerRepository.cs",
-              "RelativeDocumentMoniker": "Repositories\\IJobSeekerRepository.cs",
-              "ToolTip": "E:\\.net training\\TopJobs_API\\backend\\Repositories\\IJobSeekerRepository.cs",
-              "RelativeToolTip": "Repositories\\IJobSeekerRepository.cs",
-              "ViewState": "AQIAAAgAAAAAAAAAAAAQwA0AAAA5AAAA",
+              "DocumentIndex": 0,
+              "Title": "JobSeeker.cs",
+              "DocumentMoniker": "E:\\.net training\\TopJobs_API\\backend\\Entities\\JobSeeker.cs",
+              "RelativeDocumentMoniker": "Entities\\JobSeeker.cs",
+              "ToolTip": "E:\\.net training\\TopJobs_API\\backend\\Entities\\JobSeeker.cs",
+              "RelativeToolTip": "Entities\\JobSeeker.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAAwBUAAAAQAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-01T08:08:02.951Z"
+              "WhenOpened": "2024-09-05T19:12:47.83Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ApplicationDto.cs",
-              "DocumentMoniker": "E:\\.net training\\TopJobs_API\\backend\\DTOS\\ApplicationDto.cs",
-              "RelativeDocumentMoniker": "DTOS\\ApplicationDto.cs",
-              "ToolTip": "E:\\.net training\\TopJobs_API\\backend\\DTOS\\ApplicationDto.cs",
-              "RelativeToolTip": "DTOS\\ApplicationDto.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Title": "Job.cs",
+              "DocumentMoniker": "E:\\.net training\\TopJobs_API\\backend\\Entities\\Job.cs",
+              "RelativeDocumentMoniker": "Entities\\Job.cs",
+              "ToolTip": "E:\\.net training\\TopJobs_API\\backend\\Entities\\Job.cs",
+              "RelativeToolTip": "Entities\\Job.cs",
+              "ViewState": "AQIAAA0AAAAAAAAAAAA5wBIAAAAsAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-01T08:05:30.279Z"
+              "WhenOpened": "2024-09-05T19:10:51.219Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "JobSeekerRepository.cs",
-              "DocumentMoniker": "E:\\.net training\\TopJobs_API\\backend\\Repositories\\JobSeekerRepository.cs",
-              "RelativeDocumentMoniker": "Repositories\\JobSeekerRepository.cs",
-              "ToolTip": "E:\\.net training\\TopJobs_API\\backend\\Repositories\\JobSeekerRepository.cs",
-              "RelativeToolTip": "Repositories\\JobSeekerRepository.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAAFsAAAAgAAAA",
+              "DocumentIndex": 2,
+              "Title": "Employer.cs",
+              "DocumentMoniker": "E:\\.net training\\TopJobs_API\\backend\\Entities\\Employer.cs",
+              "RelativeDocumentMoniker": "Entities\\Employer.cs",
+              "ToolTip": "E:\\.net training\\TopJobs_API\\backend\\Entities\\Employer.cs",
+              "RelativeToolTip": "Entities\\Employer.cs",
+              "ViewState": "AQIAAAoAAAAAAAAAAAAQwA4AAAAIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-01T07:55:48.337Z",
+              "WhenOpened": "2024-09-05T19:07:34.05Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "JobSeekerController.cs",
-              "DocumentMoniker": "E:\\.net training\\TopJobs_API\\backend\\Controllers\\JobSeekerController.cs",
-              "RelativeDocumentMoniker": "Controllers\\JobSeekerController.cs",
-              "ToolTip": "E:\\.net training\\TopJobs_API\\backend\\Controllers\\JobSeekerController.cs",
-              "RelativeToolTip": "Controllers\\JobSeekerController.cs",
-              "ViewState": "AQIAAIAAAAAAAAAAAAAswIkAAAAJAAAA",
+              "Title": "EmployerDto.cs",
+              "DocumentMoniker": "E:\\.net training\\TopJobs_API\\backend\\DTOS\\EmployerDto.cs",
+              "RelativeDocumentMoniker": "DTOS\\EmployerDto.cs",
+              "ToolTip": "E:\\.net training\\TopJobs_API\\backend\\DTOS\\EmployerDto.cs",
+              "RelativeToolTip": "DTOS\\EmployerDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAHAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-01T07:55:22.048Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ApplicationController.cs",
-              "DocumentMoniker": "E:\\.net training\\TopJobs_API\\backend\\Controllers\\ApplicationController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ApplicationController.cs",
-              "ToolTip": "E:\\.net training\\TopJobs_API\\backend\\Controllers\\ApplicationController.cs",
-              "RelativeToolTip": "Controllers\\ApplicationController.cs",
-              "ViewState": "AQIAAGYAAAAAAAAAAAAowHcAAAASAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-29T18:51:41.629Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ApplicationRepository.cs",
-              "DocumentMoniker": "E:\\.net training\\TopJobs_API\\backend\\Repositories\\ApplicationRepository.cs",
-              "RelativeDocumentMoniker": "Repositories\\ApplicationRepository.cs",
-              "ToolTip": "E:\\.net training\\TopJobs_API\\backend\\Repositories\\ApplicationRepository.cs",
-              "RelativeToolTip": "Repositories\\ApplicationRepository.cs",
-              "ViewState": "AQIAAFAAAAAAAAAAAAAswGEAAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-29T18:51:43.959Z"
+              "WhenOpened": "2024-09-05T19:05:53.682Z",
+              "EditorCaption": ""
             }
           ]
         }

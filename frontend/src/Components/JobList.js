@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { UserContext } from "../context/UserContext"; // Import UserContext
-import "./JobList.css"; // Ensure to import the CSS file
 
 const JobList = () => {
   const [jobs, setJobs] = useState([]);
@@ -58,14 +57,73 @@ const JobList = () => {
     handleApply(jobId); // Automatically apply
   };
 
+  const styles = {
+    container: {
+      maxWidth: "1200px",
+      margin: "0 auto",
+      padding: "20px",
+      backgroundColor: "#f0f4f8",
+    },
+    heading: {
+      textAlign: "center",
+      fontSize: "2rem",
+      marginBottom: "30px",
+      color: "#333",
+    },
+    jobCard: {
+      backgroundColor: "#fff",
+      borderRadius: "8px",
+      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+      padding: "20px",
+      marginBottom: "20px",
+      transition: "transform 0.3s ease-in-out",
+    },
+    jobCardHover: {
+      transform: "translateY(-10px)",
+    },
+    jobTitle: {
+      fontSize: "1.5rem",
+      marginBottom: "10px",
+      color: "#2c3e50",
+    },
+    jobDescription: {
+      fontSize: "1rem",
+      color: "#7f8c8d",
+      marginBottom: "15px",
+    },
+    button: {
+      backgroundColor: "#3498db",
+      color: "#fff",
+      border: "none",
+      padding: "10px 20px",
+      borderRadius: "5px",
+      fontSize: "1rem",
+      cursor: "pointer",
+      transition: "background-color 0.3s ease-in-out",
+    },
+    buttonHover: {
+      backgroundColor: "#2980b9",
+    },
+    ul: {
+      listStyle: "none",
+      padding: "0",
+    },
+  };
+
   return (
-    <div className="job-list-container">
-      <h2>Job Openings</h2>
-      <ul>
+    <div style={styles.container}>
+      <h2 style={styles.heading}>Job Openings</h2>
+      <ul style={styles.ul}>
         {jobs.map((job) => (
-          <li key={job.jobId} className="job-card">
-            <h3>{job.title}</h3>
-            <p>{job.description}</p>
+          <li
+            key={job.jobId}
+            style={{
+              ...styles.jobCard,
+              ...(applyingJobId === job.jobId ? styles.jobCardHover : {}),
+            }}
+          >
+            <h3 style={styles.jobTitle}>{job.title}</h3>
+            <p style={styles.jobDescription}>{job.description}</p>
 
             {user.role === "JobSeeker" ? (
               <>
@@ -73,6 +131,10 @@ const JobList = () => {
                 <button
                   onClick={() => handleApplyClick(job.jobId)}
                   disabled={applyingJobId === job.jobId}
+                  style={{
+                    ...styles.button,
+                    ...(applyingJobId === job.jobId ? styles.buttonHover : {}),
+                  }}
                 >
                   {applyingJobId === job.jobId ? "Applying..." : "Apply"}
                 </button>

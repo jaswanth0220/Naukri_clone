@@ -11,6 +11,8 @@ namespace TopJobs_API.Entities
         [ForeignKey("User")]
         public int UserId { get; set; } 
         public string CompanyName { get; set; }
+
+        
         public User User { get; set; }
     }
 }
