@@ -1,0 +1,35 @@
+/* src/Components/ProfilePage.css */
+.profile-container {
+    margin-top: 20px;
+  }
+  
+  .profile-card {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-picture {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #007bff;
+    margin-top: -60px;
+  }
+  
+  .card-header {
+    position: relative;
+    background-color: #f8f9fa;
+    padding: 30px 20px;
+  }
+  
+  .card-body {
+    padding: 20px;
+  }
+  
+  .card-footer {
+    background-color: #f8f9fa;
+    padding: 10px;
+  }
+  

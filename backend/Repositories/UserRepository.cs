@@ -56,10 +56,17 @@ namespace TopJobs_API.Repositories
             }
         }
 
+        public async Task<bool> IsUserExists(string userName, string email)
+        {
+            return await _topJobsContext.Users
+                .AnyAsync(u => u.UserName == userName || u.Email == email);
+        }
+
         public async Task Register(User user)
         {
             try
             {
+                // Add the new user to the database
                 await _topJobsContext.Users.AddAsync(user);
                 await _topJobsContext.SaveChangesAsync();
             }
@@ -68,6 +75,7 @@ namespace TopJobs_API.Repositories
                 throw new Exception("An error occurred while registering the user. Please try again later.", ex);
             }
         }
+
 
         public async Task Update(User user)
         {
@@ -92,6 +100,11 @@ namespace TopJobs_API.Repositories
             {
                 throw new Exception("An error occurred while validating the user. Please try again later.", ex);
             }
+        }
+
+        public async Task<User> GetUserById(int userId)
+        {
+            return await _topJobsContext.Users.FirstOrDefaultAsync(u => u.UserId == userId);
         }
     }
 }

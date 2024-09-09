@@ -21,7 +21,7 @@ namespace TopJobs_API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles="Admin")]
+        //[Authorize(Roles="Admin")]
         public async Task<ActionResult<List<Employer>>> GetEmployers()
         {
             try
@@ -80,6 +80,10 @@ namespace TopJobs_API.Controllers
                 {
                     UserId = employerDto.UserId,
                     CompanyName = employerDto.CompanyName,
+                    CompanyDescription = employerDto.CompanyDescription,
+                    CompanyLocation = employerDto.CompanyLocation,
+                    ContactEmail = employerDto.ContactEmail,
+                    ContactNumber = employerDto.ContactNumber,
                 };
 
                 await _employerRepository.AddAsync(employer);

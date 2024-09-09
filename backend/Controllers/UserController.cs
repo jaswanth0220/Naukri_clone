@@ -34,6 +34,15 @@ namespace TopJobs_API.Controllers
         {
             try
             {
+                // Check if email or username already exists
+                var isUserExists = await _userRepository.IsUserExists(user.UserName, user.Email);
+
+                if (isUserExists)
+                {
+                    return BadRequest("Username or Email already exists.");
+                }
+
+                // Proceed with registration
                 await _userRepository.Register(user);
                 return Ok(user);
             }
@@ -42,6 +51,7 @@ namespace TopJobs_API.Controllers
                 return StatusCode(500, "Internal server error. Please try again later.");
             }
         }
+
 
         [HttpPost, Route("Login")]
         [AllowAnonymous]
@@ -132,7 +142,7 @@ namespace TopJobs_API.Controllers
         }
 
         [HttpGet, Route("GetAllUsers")]
-        [Authorize(Roles="Admin")]
+        //[Authorize(Roles="Admin")]
         public async Task<IActionResult> GetAll()
         {
             try
@@ -194,5 +204,79 @@ namespace TopJobs_API.Controllers
                 return StatusCode(500, "Internal server error. Please try again later.");
             }
         }
+
+        [HttpGet, Route("GetProfile")]
+        [Authorize]
+        public async Task<IActionResult> GetProfile()
+        {
+            try
+            {
+                var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                var user = await _userRepository.GetUserById(userId);
+
+                if (user == null)
+                {
+                    return NotFound("User not found");
+                }
+
+                if (user.Role == "Employer")
+                {
+                    var employer = await _employerRepository.GetEmployerByUserId(userId);
+                    if (employer == null)
+                    {
+                        return NotFound("Employer profile not found");
+                    }
+
+                    var employerProfile = new
+                    {
+                        user.UserName,
+                        user.Email,
+                        user.Role,
+                        employer.CompanyName,
+                        employer.CompanyDescription,
+                        employer.CompanyLocation,
+                        employer.ContactEmail,
+                        employer.ContactNumber
+                    };
+
+                    return Ok(employerProfile);
+                }
+                else if (user.Role == "JobSeeker")
+                {
+                    var jobSeeker = await _jobSeekerRepository.GetJobSeekerByUserId(userId);
+                    if (jobSeeker == null)
+                    {
+                        return NotFound("Job Seeker profile not found");
+                    }
+
+                    var jobSeekerProfile = new
+                    {
+                        user.UserName,
+                        user.Email,
+                        user.Role,
+                        jobSeeker.FirstName,
+                        jobSeeker.LastName,
+                        jobSeeker.Address,
+                        jobSeeker.City,
+                        jobSeeker.State,
+                        jobSeeker.Zip,
+                        jobSeeker.Phone,
+                        jobSeeker.Skills,
+                        jobSeeker.Experience,
+                        jobSeeker.Education,
+                        jobSeeker.Objective
+                    };
+
+                    return Ok(jobSeekerProfile);
+                }
+
+                return BadRequest("Invalid role");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error. Please try again later.");
+            }
+        }
     }
 }
+

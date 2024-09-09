@@ -6,7 +6,7 @@ import {
   Link,
   Navigate,
 } from "react-router-dom";
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Navbar, Nav, Container } from "react-bootstrap";
 import Home from "./Components/Home";
 import Login from "./Components/Login";
 import Cregister from "./Components/Cregistration";
@@ -16,8 +16,9 @@ import ApplyForJob from "./Components/ApplyForJob";
 import Logout from "./Components/Logout";
 import EmployerDashboard from "./Components/EmployerDashboard";
 import AppliedJobs from "./Components/AppliedJobs";
-import { UserProvider, UserContext } from "./context/UserContext"; 
+import { UserProvider, UserContext } from "./context/UserContext";
 import JobDetails from "./Components/JobDetails";
+import ProfilePage from "./Components/ProfilePage";
 
 // Role-Based Route Protection for Job Seekers
 const JobSeekerRoute = ({ element: Component }) => {
@@ -50,25 +51,42 @@ const UserNavLinks = () => {
       <>
         {user.role === "JobSeeker" && (
           <>
-            <Nav.Link as={Link} to="/joblist">Job List</Nav.Link>
-            <Nav.Link as={Link} to="/applied-jobs">Applied Jobs</Nav.Link>
+            <Nav.Link as={Link} to="/joblist">
+              Job List
+            </Nav.Link>
+            <Nav.Link as={Link} to="/applied-jobs">
+              Applied Jobs
+            </Nav.Link>
           </>
         )}
         {user.role === "Employer" && (
           <>
-            <Nav.Link as={Link} to="/postJob">Post Job</Nav.Link>
-            <Nav.Link as={Link} to="/employer-dashboard">Employer Dashboard</Nav.Link>
+            <Nav.Link as={Link} to="/postJob">
+              Post Job
+            </Nav.Link>
+            <Nav.Link as={Link} to="/employer-dashboard">
+              Employer Dashboard
+            </Nav.Link>
           </>
         )}
-        <Nav.Link as={Link} to="/logout">Logout</Nav.Link>
+        <Nav.Link as={Link} to="/profile">
+          Profile
+        </Nav.Link>
+        <Nav.Link as={Link} to="/logout">
+          Logout
+        </Nav.Link>
       </>
     );
   }
 
   return (
     <>
-      <Nav.Link as={Link} to="/login">Login</Nav.Link>
-      <Nav.Link as={Link} to="/cregister">Register</Nav.Link>
+      <Nav.Link as={Link} to="/login">
+        Login
+      </Nav.Link>
+      <Nav.Link as={Link} to="/cregister">
+        Register
+      </Nav.Link>
     </>
   );
 };
@@ -79,11 +97,20 @@ const App = () => {
       <Router>
         <Navbar bg="dark" variant="dark" expand="lg">
           <Container>
-            <Navbar.Brand as={Link} to="/">JobSearch</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Brand as={Link} to="/">
+              JobSearch
+            </Navbar.Brand>
+            {/* Moved Navbar.Toggle after the Brand */}
+            <Navbar.Toggle
+              aria-controls="basic-navbar-nav"
+              className="ms-auto"
+            />
             <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="me-auto">
-                <Nav.Link as={Link} to="/">Home</Nav.Link>
+              {/* Use ms-auto to align links to the right */}
+              <Nav className="ms-auto">
+                <Nav.Link as={Link} to="/">
+                  Home
+                </Nav.Link>
                 <UserNavLinks />
               </Nav>
             </Navbar.Collapse>
@@ -96,8 +123,10 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/cregister" element={<Cregister />} />
             <Route path="/jobs/:jobId" element={<JobDetails />} />
+            <Route path="/jobs/" element={<JobList />} />
 
-
+            {/* Profile Page */}
+            <Route path="/profile" element={<ProfilePage />} />
 
             {/* Job Seeker Specific Routes */}
             <Route

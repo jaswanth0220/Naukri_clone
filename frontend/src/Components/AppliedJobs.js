@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { UserContext } from "../context/UserContext";
-import "./AppliedJobs.css"; // Ensure to import the CSS file
+import "./AppliedJobs.css"; // Import updated CSS
 
 const AppliedJobs = () => {
   const [jobs, setJobs] = useState([]);
@@ -33,33 +33,43 @@ const AppliedJobs = () => {
   }, [user.jobSeekerId, user.token]);
 
   if (loading) {
-    return <p>Loading applied jobs...</p>;
+    return (
+      <div className="loader">
+        <div className="spinner"></div>
+        <p>Loading applied jobs...</p>
+      </div>
+    );
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <p className="error-message">{error}</p>;
   }
 
   return (
     <div className="applied-jobs-container">
-      <h2>Applied Jobs</h2>
+      <h2 className="section-heading">Applied Jobs</h2>
       {jobs.length > 0 ? (
-        <ul>
+        <ul className="job-list">
           {jobs.map((job) => (
             <li key={job.jobId} className="job-card">
-              <h3>{job.jobTitle}</h3>
-              <p>
-                <strong>Status:</strong> {job.status}
-              </p>
-              <p>
-                <strong>Applied on:</strong>{" "}
-                {new Date(job.applyDate).toLocaleDateString()}
-              </p>
+              <div className="job-info">
+                <h3 className="job-title">{job.jobTitle}</h3>
+                <p className="job-detail">
+                  <strong>Status:</strong> {job.status}
+                </p>
+                <p className="job-detail">
+                  <strong>Applied on:</strong>{" "}
+                  {new Date(job.applyDate).toLocaleDateString()}
+                </p>
+              </div>
             </li>
           ))}
         </ul>
       ) : (
-        <p>You have not applied for any jobs yet.</p>
+        <p className="no-jobs-message">
+          You haven't applied for any jobs yet. Start applying to land your
+          dream job!
+        </p>
       )}
     </div>
   );

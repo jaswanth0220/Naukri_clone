@@ -1,22 +1,21 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./Cregister.css"; 
+import EmployerForm from "./EmployerForm"; // Employer form component
+import JobSeekerForm from "./JobSeekerForm"; // Job seeker form component
+import "./Cregister.css";
 
 const Cregister = () => {
+  const [step, setStep] = useState(1); // Step 1: Basic registration, Step 2: Role-specific form
   const [role, setRole] = useState("");
   const [formData, setFormData] = useState({
     userName: "",
     email: "",
     password: "",
-    companyName: "",
-    resume: "",
-    skills: "",
-    experience: "",
-    education: "",
   });
+  const [errorMessage, setErrorMessage] = useState(""); // For storing error message
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleRoleChange = (e) => {
     setRole(e.target.value);
@@ -29,8 +28,12 @@ const Cregister = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleNext = (e) => {
     e.preventDefault();
+    setStep(2);
+  };
+
+  const handleSubmit = async (additionalData) => {
     const userDto = {
       userName: formData.userName,
       email: formData.email,
@@ -46,135 +49,96 @@ const Cregister = () => {
       );
       const userId = registerResponse.data.userId;
 
+      // Register additional role-specific data
       if (role === "Employer") {
-        const employerDto = {
+        await axios.post("http://localhost:5099/api/Employer/", {
           userId: userId,
-          companyName: formData.companyName,
-        };
-        await axios.post("http://localhost:5099/api/Employer/", employerDto);
-      } 
-    
-      else if (role === "JobSeeker") {
-        const jobSeekerDto = {
+          ...additionalData,
+        });
+      } else if (role === "JobSeeker") {
+        await axios.post("http://localhost:5099/api/JobSeeker/", {
           userId: userId,
-          resume: formData.resume,
-          skills: formData.skills,
-          experience: formData.experience,
-          education: formData.education,
-        };
-        await axios.post("http://localhost:5099/api/JobSeeker/", jobSeekerDto);
+          ...additionalData,
+        });
       }
 
+      // On success, navigate to login
       navigate("/login");
     } catch (error) {
       console.error("Error registering user:", error);
+
+      // Display user-friendly error message
+      if (error.response && error.response.data) {
+        setErrorMessage(
+          error.response.data.message ||
+            "Registration failed. Please try again."
+        );
+      } else {
+        setErrorMessage("An unexpected error occurred. Please try again.");
+      }
     }
   };
 
   return (
     <div className="register-container">
       <div className="register-box">
-        <h2>Register</h2>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Username:</label>
-            <input
-              type="text"
-              name="userName"
-              value={formData.userName}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label>Email:</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label>Password:</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="role-select">
-            <label>Role:</label>
-            <select value={role} onChange={handleRoleChange} required>
-              <option value="">Select Role</option>
-              <option value="Employer">Employer</option>
-              <option value="JobSeeker">Job Seeker</option>
-            </select>
-          </div>
+        {step === 1 && (
+          <>
+            <h2>Register</h2>
+            <form onSubmit={handleNext}>
+              <div>
+                <label>Username:</label>
+                <input
+                  type="text"
+                  name="userName"
+                  value={formData.userName}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div>
+                <label>Email:</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div>
+                <label>Password:</label>
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="role-select">
+                <label>Role:</label>
+                <select value={role} onChange={handleRoleChange} required>
+                  <option value="">Select Role</option>
+                  <option value="Employer">Employer</option>
+                  <option value="JobSeeker">Job Seeker</option>
+                </select>
+              </div>
+              <button type="submit">Next</button>
+            </form>
+          </>
+        )}
 
-          {role === "Employer" && (
-            <div>
-              <label>Company Name:</label>
-              <input
-                type="text"
-                name="companyName"
-                value={formData.companyName}
-                onChange={handleChange}
-                required
-              />
-            </div>
-          )}
+        {step === 2 && role === "Employer" && (
+          <EmployerForm onSubmit={handleSubmit} />
+        )}
 
-          {role === "JobSeeker" && (
-            <>
-              <div>
-                <label>Resume:</label>
-                <input
-                  type="text"
-                  name="resume"
-                  value={formData.resume}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div>
-                <label>Skills:</label>
-                <input
-                  type="text"
-                  name="skills"
-                  value={formData.skills}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div>
-                <label>Experience:</label>
-                <input
-                  type="text"
-                  name="experience"
-                  value={formData.experience}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div>
-                <label>Education:</label>
-                <input
-                  type="text"
-                  name="education"
-                  value={formData.education}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-            </>
-          )}
+        {step === 2 && role === "JobSeeker" && (
+          <JobSeekerForm onSubmit={handleSubmit} />
+        )}
 
-          <button type="submit">Register</button>
-        </form>
+        {/* Display error message if there is any */}
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
       </div>
     </div>
   );

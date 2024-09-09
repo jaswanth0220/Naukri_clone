@@ -102,3 +102,27 @@ h2 {
   color: #777;
   font-style: italic;
 }
+.applicant-modal .modal-dialog {
+  max-width: 800px;
+}
+
+.applicant-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.applicant-card .card-title {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.applicant-card .card-subtitle {
+  font-size: 1.2rem;
+  color: #777;
+}
+
+.applicant-card .card-text {
+  font-size: 1rem;
+  color: #555;
+}

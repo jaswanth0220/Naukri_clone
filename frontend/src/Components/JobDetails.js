@@ -12,15 +12,14 @@ import {
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { UserContext } from "../context/UserContext"; 
-
+import { UserContext } from "../context/UserContext";
 
 function JobDetails() {
-  const { jobId } = useParams(); 
+  const { jobId } = useParams();
   const [job, setJob] = useState(null);
   const [error, setError] = useState(null);
-  const [isApplying, setIsApplying] = useState(false); 
-  const [applicationError, setApplicationError] = useState(null); 
+  const [isApplying, setIsApplying] = useState(false);
+  const [applicationError, setApplicationError] = useState(null);
   const [applicationSuccess, setApplicationSuccess] = useState(false);
 
   // Get user info from context
@@ -44,14 +43,19 @@ function JobDetails() {
   }, [jobId]);
 
   const handleApply = async () => {
+    if (user.role !== "JobSeeker") {
+      setApplicationError("Only job seekers can apply for jobs.");
+      return;
+    }
+
     const applicationData = {
-      applicantId: user.jobSeekerId, 
-      jobId: jobId, // The job ID
-      status: "pending", // Initial status for the application
-      applyDate: new Date().toISOString(), // Automatically set the current date
+      applicantId: user.jobSeekerId,
+      jobId: jobId,
+      status: "pending",
+      applyDate: new Date().toISOString(),
     };
 
-    setIsApplying(true); 
+    setIsApplying(true);
     try {
       const response = await axios.post(
         "http://localhost:5099/api/application/",
@@ -63,14 +67,14 @@ function JobDetails() {
         }
       );
       console.log("Application successful", response.data);
-      setApplicationSuccess(true); // Application successful
+      setApplicationSuccess(true);
       setApplicationError(null); // Clear previous errors
     } catch (error) {
       console.error("Error applying for job", error);
       setApplicationError("Error applying for job. Please try again later.");
-      setApplicationSuccess(false); // Clear previous successes
+      setApplicationSuccess(false);
     } finally {
-      setIsApplying(false); // End applying
+      setIsApplying(false);
     }
   };
 
@@ -119,17 +123,25 @@ function JobDetails() {
                 <strong>Expiry Date:</strong>{" "}
                 {new Date(job.expiryDate).toLocaleDateString()}
               </Card.Text>
-              <Button
-                variant="primary"
-                onClick={handleApply}
-                disabled={isApplying}
-              >
-                {isApplying ? (
-                  <Spinner animation="border" size="sm" />
-                ) : (
-                  "Apply Now"
-                )}
-              </Button>
+
+              {user.role === "JobSeeker" ? (
+                <Button
+                  variant="primary"
+                  onClick={handleApply}
+                  disabled={isApplying}
+                >
+                  {isApplying ? (
+                    <Spinner animation="border" size="sm" />
+                  ) : (
+                    "Apply Now"
+                  )}
+                </Button>
+              ) : (
+                <Alert variant="warning" className="mt-3">
+                  Only job seekers can apply for this job.
+                </Alert>
+              )}
+
               {applicationError && (
                 <Alert variant="danger" className="mt-3">
                   {applicationError}

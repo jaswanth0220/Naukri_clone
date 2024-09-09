@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { UserContext } from "../context/UserContext"; // Import UserContext
+import { useLocation } from "react-router-dom"; // To get query parameters
 
 const JobList = () => {
   const [jobs, setJobs] = useState([]);
+  const [filteredJobs, setFilteredJobs] = useState([]);
   const [applyingJobId, setApplyingJobId] = useState(null); // Track job application state
   const { user } = useContext(UserContext); // Access user details from context
+  const location = useLocation();
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -26,6 +29,20 @@ const JobList = () => {
     };
     fetchJobs();
   }, [user.token]);
+
+  useEffect(() => {
+    // Get category from URL query params
+    const queryParams = new URLSearchParams(location.search);
+    const selectedCategory = queryParams.get("category");
+
+    // Filter jobs by selected category
+    if (selectedCategory) {
+      const filtered = jobs.filter((job) => job.category === selectedCategory);
+      setFilteredJobs(filtered);
+    } else {
+      setFilteredJobs(jobs); // Show all jobs if no category is selected
+    }
+  }, [jobs, location.search]);
 
   const handleApply = async (jobId) => {
     const applicationData = {
@@ -62,41 +79,44 @@ const JobList = () => {
       maxWidth: "1200px",
       margin: "0 auto",
       padding: "20px",
-      backgroundColor: "#f0f4f8",
+      backgroundColor: "#f8f9fa",
+      borderRadius: "8px",
     },
     heading: {
       textAlign: "center",
-      fontSize: "2rem",
+      fontSize: "2.5rem",
       marginBottom: "30px",
       color: "#333",
+      fontWeight: "bold",
     },
     jobCard: {
       backgroundColor: "#fff",
-      borderRadius: "8px",
+      borderRadius: "12px",
       boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-      padding: "20px",
-      marginBottom: "20px",
+      padding: "25px",
+      marginBottom: "25px",
       transition: "transform 0.3s ease-in-out",
     },
     jobCardHover: {
       transform: "translateY(-10px)",
     },
     jobTitle: {
-      fontSize: "1.5rem",
+      fontSize: "1.75rem",
       marginBottom: "10px",
       color: "#2c3e50",
+      fontWeight: "bold",
     },
-    jobDescription: {
+    jobDetails: {
       fontSize: "1rem",
       color: "#7f8c8d",
-      marginBottom: "15px",
+      marginBottom: "20px",
     },
     button: {
       backgroundColor: "#3498db",
       color: "#fff",
       border: "none",
-      padding: "10px 20px",
-      borderRadius: "5px",
+      padding: "12px 30px",
+      borderRadius: "6px",
       fontSize: "1rem",
       cursor: "pointer",
       transition: "background-color 0.3s ease-in-out",
@@ -108,13 +128,20 @@ const JobList = () => {
       listStyle: "none",
       padding: "0",
     },
+    label: {
+      fontWeight: "bold",
+      color: "#34495e",
+    },
+    detailsRow: {
+      marginBottom: "8px",
+    },
   };
 
   return (
     <div style={styles.container}>
       <h2 style={styles.heading}>Job Openings</h2>
       <ul style={styles.ul}>
-        {jobs.map((job) => (
+        {filteredJobs.map((job) => (
           <li
             key={job.jobId}
             style={{
@@ -123,22 +150,52 @@ const JobList = () => {
             }}
           >
             <h3 style={styles.jobTitle}>{job.title}</h3>
-            <p style={styles.jobDescription}>{job.description}</p>
+            <div style={styles.jobDetails}>
+              <div style={styles.detailsRow}>
+                <span style={styles.label}>Description: </span>
+                {job.description}
+              </div>
+              <div style={styles.detailsRow}>
+                <span style={styles.label}>Requirements: </span>
+                {job.requirements}
+              </div>
+              <div style={styles.detailsRow}>
+                <span style={styles.label}>Location: </span>
+                {job.location}
+              </div>
+              <div style={styles.detailsRow}>
+                <span style={styles.label}>Salary: </span>₹
+                {job.salary.toLocaleString()}
+              </div>
+              <div style={styles.detailsRow}>
+                <span style={styles.label}>Job Type: </span>
+                {job.jobType}
+              </div>
+              <div style={styles.detailsRow}>
+                <span style={styles.label}>Category: </span>
+                {job.category}
+              </div>
+              <div style={styles.detailsRow}>
+                <span style={styles.label}>Experience: </span>
+                {job.experience} years
+              </div>
+              <div style={styles.detailsRow}>
+                <span style={styles.label}>Qualification: </span>
+                {job.qualification}
+              </div>
+            </div>
 
             {user.role === "JobSeeker" ? (
-              <>
-                {/* Show Apply button */}
-                <button
-                  onClick={() => handleApplyClick(job.jobId)}
-                  disabled={applyingJobId === job.jobId}
-                  style={{
-                    ...styles.button,
-                    ...(applyingJobId === job.jobId ? styles.buttonHover : {}),
-                  }}
-                >
-                  {applyingJobId === job.jobId ? "Applying..." : "Apply"}
-                </button>
-              </>
+              <button
+                onClick={() => handleApplyClick(job.jobId)}
+                disabled={applyingJobId === job.jobId}
+                style={{
+                  ...styles.button,
+                  ...(applyingJobId === job.jobId ? styles.buttonHover : {}),
+                }}
+              >
+                {applyingJobId === job.jobId ? "Applying..." : "Apply"}
+              </button>
             ) : (
               <span>Employers can't apply for jobs</span>
             )}

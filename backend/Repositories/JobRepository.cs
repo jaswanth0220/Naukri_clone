@@ -93,17 +93,29 @@ namespace TopJobs_API.Repositories
                                     where application.JobId == jobId
                                     select new ApplicantDto
                                     {
-                                        ApplicationId = application.ApplicationId, // Select ApplicationId
+                                        ApplicationId = application.ApplicationId,
                                         JobId = application.JobId,
                                         ApplicantId = jobSeeker.JobSeekerId,
                                         Status = application.Status,
                                         ApplyDate = application.ApplyDate,
                                         UserName = user.UserName,
-                                        Email = user.Email
+                                        Email = user.Email,
+                                        FirstName = jobSeeker.FirstName, // Ensure to include additional details
+                                        LastName = jobSeeker.LastName,
+                                        Address = jobSeeker.Address,
+                                        City = jobSeeker.City,
+                                        State = jobSeeker.State,
+                                        Zip = jobSeeker.Zip,
+                                        Phone = jobSeeker.Phone,
+                                        Skills = jobSeeker.Skills,
+                                        Experience = jobSeeker.Experience,
+                                        Education = jobSeeker.Education,
+                                        Objective = jobSeeker.Objective
                                     }).ToListAsync();
 
             return applicants;
         }
+
 
 
 

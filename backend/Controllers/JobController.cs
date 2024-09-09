@@ -67,6 +67,10 @@ namespace TopJobs_API.Controllers
                     Requirements = jobDto.Requirements,
                     Location = jobDto.Location,
                     Salary = jobDto.Salary,
+                    JobType = jobDto.JobType,
+                    Category = jobDto.Category,
+                    Experience = jobDto.Experience,
+                    Qualification = jobDto.Qualification,
                     PostDate = jobDto.PostDate,
                     ExpiryDate = jobDto.ExpiryDate
                 };
@@ -96,6 +100,10 @@ namespace TopJobs_API.Controllers
                 job.Requirements = jobDto.Requirements;
                 job.Location = jobDto.Location;
                 job.Salary = jobDto.Salary;
+                job.JobType = jobDto.JobType;
+                job.Category = jobDto.Category;
+                job.Experience = jobDto.Experience;
+                job.Qualification = jobDto.Qualification;
                 job.PostDate = jobDto.PostDate;
                 job.ExpiryDate = jobDto.ExpiryDate;
 
@@ -107,7 +115,7 @@ namespace TopJobs_API.Controllers
                 return StatusCode(500, "Internal server error. Please try again later.");
             }
         }
-
+          
         [HttpDelete("{id}")]
         [Authorize(Roles = "Employer,Admin")]
         public async Task<IActionResult> DeleteJob(int id)

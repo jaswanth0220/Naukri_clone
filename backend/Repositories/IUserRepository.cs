@@ -13,5 +13,8 @@ namespace TopJobs_API.Repositories
         Task Delete (int UserId);
 
         Task<User> GetUser(string email);
+
+        Task<User> GetUserById(int id);
+        Task<bool> IsUserExists(string userName, string email);
     }
 }

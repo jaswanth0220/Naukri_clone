@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import axios from "axios"; // Import axios for API calls
-import { MapPin, Clock } from "lucide-react"; // Import necessary icons
+import axios from "axios";
+import { MapPin, Clock } from "lucide-react";
 import { UserContext } from "../../context/UserContext";
 
 export default function JobFiltering() {
@@ -15,7 +15,6 @@ export default function JobFiltering() {
   const [selectedExperience, setSelectedExperience] = useState("");
   const { user } = useContext(UserContext);
 
-  // Fetch jobs from the backend
   useEffect(() => {
     const fetchJobs = async () => {
       try {
@@ -26,37 +25,96 @@ export default function JobFiltering() {
         });
         setJobs(response.data);
         setFilteredJobs(response.data);
-        setLoading(false); // Stop loading after data is fetched
+        setLoading(false);
       } catch (err) {
         setError("Failed to load jobs. Please try again later.");
-        setLoading(false); // Stop loading in case of error
+        setLoading(false);
       }
     };
 
     fetchJobs();
   }, [user.token]);
 
-  // Filter jobs based on user's input
+  const getExperienceRange = (level) => {
+    switch (level) {
+      case "Entry-Level":
+        return [0, 1];
+      case "Junior":
+        return [1, 3];
+      case "Mid-Level":
+        return [3, 5];
+      case "Senior":
+        return [5, Infinity];
+      default:
+        return [0, Infinity];
+    }
+  };
+
   useEffect(() => {
-    const filtered = jobs.filter(
-      (job) =>
-        job.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-        (selectedType === "" || job.type === selectedType) &&
-        (selectedLocation === "" || job.location === selectedLocation) &&
-        (selectedSalary === "" || job.salary >= parseInt(selectedSalary)) &&
-        (selectedExperience === "" || job.experience === selectedExperience)
-    );
-    setFilteredJobs(filtered.slice(0, 9)); // Limit to 9 cards
+    const filtered = jobs.filter((job) => {
+      const titleMatch = job.title
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const typeMatch = selectedType === "" || job.jobType === selectedType;
+      const locationMatch =
+        selectedLocation === "" ||
+        job.location.toLowerCase() === selectedLocation.toLowerCase();
+      const salaryMatch =
+        selectedSalary === "" || job.salary >= parseInt(selectedSalary);
+      const [minExp, maxExp] = getExperienceRange(selectedExperience);
+      const experienceMatch =
+        selectedExperience === "" ||
+        (job.experience >= minExp && job.experience <= maxExp);
+
+      return (
+        titleMatch &&
+        typeMatch &&
+        locationMatch &&
+        salaryMatch &&
+        experienceMatch
+      );
+    });
+
+    setFilteredJobs(filtered.slice(0, 9));
   }, [
     searchTerm,
     selectedType,
     selectedLocation,
     selectedSalary,
     selectedExperience,
-    jobs
+    jobs,
   ]);
 
-  // Display loading or error messages
+  const handleApply = async (jobId) => {
+    if (user.role !== "JobSeeker") {
+      alert("Only job seekers can apply for jobs.");
+      return;
+    }
+
+    const applicationData = {
+      applicantId: user.jobSeekerId,
+      jobId: jobId,
+      status: "pending",
+      applyDate: new Date().toISOString(),
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5099/api/application/",
+        applicationData,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      alert("Application successful");
+    } catch (error) {
+      console.error("Error applying for job", error);
+      alert("Error applying for job. Please try again.");
+    }
+  };
+
   if (loading) {
     return <div>Loading jobs...</div>;
   }
@@ -87,7 +145,6 @@ export default function JobFiltering() {
 
       <main className="py-5">
         <div className="container">
-          {/* Handle potential error message */}
           {error && <div>{error}</div>}
 
           <section className="filters mb-5">
@@ -108,8 +165,8 @@ export default function JobFiltering() {
                   onChange={(e) => setSelectedType(e.target.value)}
                 >
                   <option value="">All Job Types</option>
-                  <option value="Full-time">Full-time</option>
-                  <option value="Part-time">Part-time</option>
+                  <option value="Full-Time">Full-time</option>
+                  <option value="Part-Time">Part-time</option>
                   <option value="Contract">Contract</option>
                 </select>
               </div>
@@ -119,12 +176,13 @@ export default function JobFiltering() {
                   value={selectedLocation}
                   onChange={(e) => setSelectedLocation(e.target.value)}
                 >
-                  <option value="">Hyderabad</option>
-                  <option value="New York">Bangalore</option>
-                  <option value="San Francisco">Chennai</option>
-                  <option value="London">Pune</option>
-                  <option value="Berlin">Mumbai</option>
-                  <option value="Tokyo">Delhi</option>
+                  <option value="">All Locations</option>
+                  <option value="Hyderabad">Hyderabad</option>
+                  <option value="Bangalore">Bangalore</option>
+                  <option value="Chennai">Chennai</option>
+                  <option value="Pune">Pune</option>
+                  <option value="Mumbai">Mumbai</option>
+                  <option value="Delhi">Delhi</option>
                 </select>
               </div>
               <div className="col-md-3">
@@ -134,10 +192,10 @@ export default function JobFiltering() {
                   onChange={(e) => setSelectedSalary(e.target.value)}
                 >
                   <option value="">All Salaries</option>
-                  <option value="50000">₹50,000+</option>
-                  <option value="75000">₹75,000+</option>
-                  <option value="100000">₹100,000+</option>
-                  <option value="125000">₹125,000+</option>
+                  <option value="200000">₹200,000+</option>
+                  <option value="500000">₹500,000+</option>
+                  <option value="1000000">₹1,000,000+</option>
+                  <option value="2500000">₹2,500,000+</option>
                 </select>
               </div>
               <div className="col-md-3">
@@ -164,24 +222,54 @@ export default function JobFiltering() {
                     <div className="card-body">
                       <h5 className="card-title">{job.title}</h5>
                       <p className="card-text text-muted mb-2">
-                        {job.description}
+                        <strong>Description:</strong> {job.description}
+                      </p>
+                      <p className="card-text">
+                        <strong>Requirements:</strong> {job.requirements}
                       </p>
                       <p className="card-text">
                         <MapPin size={16} className="me-2" />
-                        {job.location}
+                        <strong>Location:</strong> {job.location}
                       </p>
                       <p className="card-text">
-                        <span className="fw-bold">₹{job.salary.toLocaleString("en-IN")}</span>
+                        <span className="fw-bold">
+                          Salary: ₹{job.salary.toLocaleString("en-IN")}
+                        </span>
+                      </p>
+                      <p className="card-text">
+                        <strong>Job Type:</strong> {job.jobType}
+                      </p>
+                      <p className="card-text">
+                        <strong>Category:</strong> {job.category}
+                      </p>
+                      <p className="card-text">
+                        <strong>Experience:</strong> {job.experience} years
+                      </p>
+                      <p className="card-text">
+                        <strong>Qualification:</strong> {job.qualification}
                       </p>
                       <p className="card-text">
                         <Clock size={16} className="me-2" />
-                        Posted on: {new Date(job.postDate).toLocaleDateString()}
+                        <strong>Posted On:</strong>{" "}
+                        {new Date(job.postDate).toLocaleDateString()}
                       </p>
                     </div>
                     <div className="card-footer bg-transparent border-top-0">
-                      <button className="btn btn-outline-primary w-100">
-                        Apply Now
-                      </button>
+                      {user.role === "JobSeeker" ? (
+                        <button
+                          className="btn btn-outline-primary w-100"
+                          onClick={() => handleApply(job.jobId)}
+                        >
+                          Apply Now
+                        </button>
+                      ) : (
+                        <button
+                          className="btn btn-outline-secondary w-100"
+                          disabled
+                        >
+                          Only Job Seekers Can Apply
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>

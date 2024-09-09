@@ -7,6 +7,7 @@ import { UserContext } from "../context/UserContext";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); // For storing error message
   const { user, login } = useContext(UserContext);
 
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ const Login = () => {
           }
         );
         console.log(response.data);
+
         // Call login function from context with the response data
         login(response.data);
 
@@ -35,7 +37,16 @@ const Login = () => {
           navigate("/");
         }
       } catch (error) {
-        console.error("Something went wrong: " + error);
+        console.error("Error during login:", error);
+
+        // Show user-friendly error message based on the error response
+        if (error.response && error.response.data) {
+          setErrorMessage(
+            error.response.data.message || "Login failed. Please try again."
+          );
+        } else {
+          setErrorMessage("An unexpected error occurred. Please try again.");
+        }
       }
     } else {
       alert("You are already logged in");
@@ -67,6 +78,9 @@ const Login = () => {
             Submit
           </button>
         </form>
+
+        {/* Display error message if there is any */}
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
       </div>
     </div>
   );

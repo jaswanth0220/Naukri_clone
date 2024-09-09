@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import "./JobPostingForm.css";
 import { UserContext } from "../context/UserContext";
@@ -15,26 +15,11 @@ const JobPostingForm = () => {
     salary: "",
     postDate: "",
     expiryDate: "",
+    jobType: "",
+    category: "",
+    experience: "",
+    qualification: "",
   });
-
-  const [employerId, setEmployerId] = useState(null);
-  const userId = user.userId;
-  // Fetch EmployerId based on UserId when component mounts
-  // useEffect(() => {
-  //   const fetchEmployerId = async () => {
-  //     try {
-  //       const response = await axios.get(`http://localhost:5099/api/employer/GetEmployerByUserId/${userId}`);
-  //       setEmployerId(response.data); // Store the fetched EmployerId
-  //       console.log(employerId);
-  //     } catch (error) {
-  //       console.error("Error fetching EmployerId", error);
-  //     }
-  //   };
-
-  //   if (userId) {
-  //     fetchEmployerId(); // Call the API only if userId exists
-  //   }
-  // }, [userId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,12 +28,10 @@ const JobPostingForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("this is called"+user.employerId);
     const jobDataWithEmployer = {
-      postedBy: user.employerId, 
+      postedBy: user.employerId,
       ...jobData,
     };
-    // Pass the token in the header to authenticate the user
     try {
       const response = await axios.post(
         "http://localhost:5099/api/job",
@@ -59,7 +42,7 @@ const JobPostingForm = () => {
           },
         }
       );
-      navigate("/joblist");
+      navigate("/employer-dashboard");
       console.log("Job posted successfully", response.data);
       setJobData({
         title: "",
@@ -69,6 +52,10 @@ const JobPostingForm = () => {
         salary: "",
         postDate: "",
         expiryDate: "",
+        jobType: "",
+        category: "",
+        experience: "",
+        qualification: "",
       });
     } catch (error) {
       console.error("Error posting job", error);
@@ -148,6 +135,57 @@ const JobPostingForm = () => {
             type="date"
             name="expiryDate"
             value={jobData.expiryDate}
+            onChange={handleChange}
+            className="form-input"
+          />
+        </div>
+        <div className="form-group">
+          <label>Job Type</label>
+          <select
+            name="jobType"
+            value={jobData.jobType}
+            onChange={handleChange}
+            className="form-select"
+          >
+            <option value="">Select Job Type</option>
+            <option value="Full-Time">Full-Time</option>
+            <option value="Part-Time">Part-Time</option>
+            <option value="Contract">Contract</option>
+          </select>
+        </div>
+        <div className="form-group">
+          <label>Category</label>
+          <select
+            name="category"
+            value={jobData.category}
+            onChange={handleChange}
+            className="form-select"
+          >
+            <option value="">Select Category</option>
+            <option value="Technology">Technology</option>
+            <option value="Finance">Finance</option>
+            <option value="Education">Education</option>
+            <option value="Marketing">Marketing</option>
+          </select>
+        </div>
+        <div className="form-group">
+          <label>Experience</label>
+          <input
+            type="text"
+            name="experience"
+            placeholder="Experience (e.g., 3 years)"
+            value={jobData.experience}
+            onChange={handleChange}
+            className="form-input"
+          />
+        </div>
+        <div className="form-group">
+          <label>Qualification</label>
+          <input
+            type="text"
+            name="qualification"
+            placeholder="Qualification (e.g., Bachelor’s Degree in Computer Science)"
+            value={jobData.qualification}
             onChange={handleChange}
             className="form-input"
           />

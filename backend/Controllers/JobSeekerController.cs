@@ -19,7 +19,7 @@ namespace TopJobs_API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<JobSeeker>>> GetJobSeekers()
         {
             try
@@ -75,6 +75,15 @@ namespace TopJobs_API.Controllers
                 var jobSeeker = new JobSeeker
                 {
                     UserId = jobSeekerdto.UserId,
+                    FirstName = jobSeekerdto.FirstName,
+                    LastName = jobSeekerdto.LastName,
+                    Address = jobSeekerdto.Address,
+                    City = jobSeekerdto.City,
+                    State = jobSeekerdto.State,
+                    Zip = jobSeekerdto.Zip,
+                    Phone = jobSeekerdto.Phone,
+                    Email = jobSeekerdto.Email,
+                    Objective = jobSeekerdto.Objective,
                     Resume = jobSeekerdto.Resume,
                     Skills = jobSeekerdto.Skills,
                     Experience = jobSeekerdto.Experience,
